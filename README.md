@@ -1,11 +1,25 @@
-Implementation of contracts for [ERC-4337](https://eips.ethereum.org/EIPS/eip-4337) account abstraction via alternative mempool.
+Do this:
 
-# Resources
+```
+yarn
 
-[Vitalik's post on account abstraction without Ethereum protocol changes](https://medium.com/infinitism/erc-4337-account-abstraction-without-ethereum-protocol-changes-d75c9d94dc4a)
+yarn hardhat deploy --network localgeth
 
-[Discord server](http://discord.gg/fbDyENb6Y9)
+expect:
+Generating typings for: 95 artifacts in dir: typechain for target: ethers-v5
+Successfully generated 220 typings!
+Compiled 91 Solidity files successfully
+==entrypoint addr= 0x0576a174D229E3cFA37253523E645A78A0C91B57
+==SimpleAccountFactory addr= 0x09c58cf6be8E25560d479bd52B4417d15bCA2845
 
-[Bundler reference implementation](https://github.com/eth-infinitism/bundler)
+yarn ts-node erc-4337-examples/scripts/init.ts
 
-[Bundler specification test suite](https://github.com/eth-infinitism/bundler-spec-tests)
+# edit contract addresses
+vi erc-4337-examples/config.json
+
+yarn ts-node erc-4337-examples/scripts/simpleAccount/index.ts address
+
+# fund that address (bundler should already have funds)
+(in geth) eth.sendTransaction({from: eth.coinbase, to: "<ADDRESS>", value: web3.toWei(1, "ether")})
+
+```
