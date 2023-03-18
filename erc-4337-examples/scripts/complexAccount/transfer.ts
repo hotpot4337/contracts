@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import {
   getVerifyingPaymaster,
-  getSimpleAccount,
+  getComplexAccount,
   getGasFee,
   printOp,
   getHttpRpcClient,
@@ -9,16 +9,20 @@ import {
 // @ts-ignore
 import config from "../../config.json";
 
+// @ts-ignore
+import accountFactoryABI from "../../../deployments/localgeth/ComplexAccountFactory.json";
+
 export default async function main(t: string, amt: string, withPM: boolean) {
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl);
   const paymasterAPI = withPM
     ? getVerifyingPaymaster(config.paymasterUrl, config.entryPoint)
     : undefined;
-  const accountAPI = getSimpleAccount(
+  const accountAPI = getComplexAccount(
     provider,
     config.signingKey,
     config.entryPoint,
-    config.simpleAccountFactory,
+    // config.simpleAccountFactory,
+    accountFactoryABI.address,
     paymasterAPI
   );
 
