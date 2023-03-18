@@ -22,4 +22,11 @@ yarn ts-node erc-4337-examples/scripts/simpleAccount/index.ts address
 # fund that address (bundler should already have funds)
 (in geth) eth.sendTransaction({from: eth.coinbase, to: "<ADDRESS>", value: web3.toWei(1, "ether")})
 
+# time to mix things up
+
+# generate ts artifacts for any custom contracts
+sh scripts/prepack-contracts-package.sh
+
+yarn ts-node erc-4337-examples/scripts/complexAccount/index.ts address
+
 ```
