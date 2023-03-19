@@ -28,5 +28,7 @@ yarn ts-node erc-4337-examples/scripts/simpleAccount/index.ts address
 sh scripts/prepack-contracts-package.sh
 
 yarn ts-node erc-4337-examples/scripts/complexAccount/index.ts address
+# assume it's funded
+yarn ts-node erc-4337-examples/scripts/complexAccount/index.ts transfer --to <ANYADDRESS> --amount 0.0001
 
 ```
