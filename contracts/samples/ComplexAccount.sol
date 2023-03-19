@@ -31,6 +31,7 @@ contract ComplexAccount is BaseAccount, UUPSUpgradeable, Initializable {
     IEntryPoint private immutable _entryPoint;
 
     bool public isComplex;
+    bytes32 public merkleRoot;
 
     event ComplexAccountInitialized(IEntryPoint indexed entryPoint, address indexed owner);
 
@@ -87,13 +88,14 @@ contract ComplexAccount is BaseAccount, UUPSUpgradeable, Initializable {
      * a new implementation of ComplexAccount must be deployed with the new EntryPoint address, then upgrading
       * the implementation by calling `upgradeTo()`
      */
-    function initialize(address anOwner) public virtual initializer {
-        _initialize(anOwner);
+    function initialize(address anOwner, bytes32 _merkleRoot) public virtual initializer {
+        _initialize(anOwner, _merkleRoot);
     }
 
-    function _initialize(address anOwner) internal virtual {
+    function _initialize(address anOwner, bytes32 _merkleRoot) internal virtual {
         isComplex = true;
         owner = anOwner;
+        merkleRoot = _merkleRoot;
         emit ComplexAccountInitialized(_entryPoint, owner);
     }
 

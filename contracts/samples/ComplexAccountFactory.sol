@@ -25,27 +25,35 @@ contract ComplexAccountFactory {
      * Note that during UserOperation execution, this method is called only if the account is not deployed.
      * This method returns an existing account address so that entryPoint.getSenderAddress() would work even after account creation
      */
-    function createAccount(address owner,uint256 salt) public returns (ComplexAccount ret) {
-        address addr = getAddress(owner, salt);
+    function createAccount(
+        address owner,
+        uint256 salt,
+        bytes32 _merkleRoot
+    ) public returns (ComplexAccount ret) {
+        address addr = getAddress(owner, salt, _merkleRoot);
         uint codeSize = addr.code.length;
         if (codeSize > 0) {
             return ComplexAccount(payable(addr));
         }
         ret = ComplexAccount(payable(new ERC1967Proxy{salt : bytes32(salt)}(
                 address(accountImplementation),
-                abi.encodeCall(ComplexAccount.initialize, (owner))
+                abi.encodeCall(ComplexAccount.initialize, (owner, _merkleRoot))
             )));
     }
 
     /**
      * calculate the counterfactual address of this account as it would be returned by createAccount()
      */
-    function getAddress(address owner,uint256 salt) public view returns (address) {
+    function getAddress(
+        address owner,
+        uint256 salt,
+        bytes32 _merkleRoot
+    ) public view returns (address) {
         return Create2.computeAddress(bytes32(salt), keccak256(abi.encodePacked(
                 type(ERC1967Proxy).creationCode,
                 abi.encode(
                     address(accountImplementation),
-                    abi.encodeCall(ComplexAccount.initialize, (owner))
+                    abi.encodeCall(ComplexAccount.initialize, (owner, _merkleRoot))
                 )
             )));
     }

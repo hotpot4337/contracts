@@ -7,6 +7,7 @@ import { ComplexAccountAPI } from './ComplexAccountAPI';
 export function getComplexAccount(
   provider: JsonRpcProvider,
   signingKey: string,
+  merkleRoot: string,
   entryPointAddress: string,
   factoryAddress: string,
   paymasterAPI?: PaymasterAPI
@@ -14,6 +15,7 @@ export function getComplexAccount(
   const owner = new ethers.Wallet(signingKey, provider);
   const sw = new ComplexAccountAPI({
     provider,
+    merkleRoot,
     entryPointAddress,
     owner,
     factoryAddress,

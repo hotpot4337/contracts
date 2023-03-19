@@ -1,4 +1,4 @@
-import { BigNumber, BigNumberish } from 'ethers'
+import { BigNumber, BigNumberish, utils } from 'ethers'
 // import {
 //   SimpleAccount,
 //   SimpleAccount__factory, SimpleAccountFactory,
@@ -22,10 +22,18 @@ import { BaseApiParams, BaseAccountAPI } from '../../packages/sdk/src/BaseAccoun
  */
 export interface ComplexAccountApiParams extends BaseApiParams {
   owner: Signer
+  merkleRoot: string
   factoryAddress?: string
   index?: number
 
 }
+// export interface BaseApiParams {
+//   provider: Provider
+//   entryPointAddress: string
+//   accountAddress?: string
+//   overheads?: Partial<GasOverheads>
+//   paymasterAPI?: PaymasterAPI
+// }
 
 /**
  * An implementation of the BaseAccountAPI using the ComplexAccount contract.
@@ -38,6 +46,7 @@ export class ComplexAccountAPI extends BaseAccountAPI {
   factoryAddress?: string
   owner: Signer
   index: number
+  merkleRoot: string
 
   /**
    * our account contract.
@@ -52,6 +61,7 @@ export class ComplexAccountAPI extends BaseAccountAPI {
     this.factoryAddress = params.factoryAddress
     this.owner = params.owner
     this.index = params.index ?? 0
+    this.merkleRoot = params.merkleRoot // TOMO
   }
 
   async _getAccountContract (): Promise<ComplexAccount> {
@@ -75,7 +85,7 @@ export class ComplexAccountAPI extends BaseAccountAPI {
     }
     return hexConcat([
       this.factory.address,
-      this.factory.interface.encodeFunctionData('createAccount', [await this.owner.getAddress(), this.index])
+      this.factory.interface.encodeFunctionData('createAccount', [await this.owner.getAddress(), this.index, utils.formatBytes32String("TOMO")])
     ])
   }
 

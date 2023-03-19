@@ -17,9 +17,11 @@ export default async function main(t: string, amt: string, withPM: boolean) {
   const paymasterAPI = withPM
     ? getVerifyingPaymaster(config.paymasterUrl, config.entryPoint)
     : undefined;
+  const merkleRoot = ethers.utils.formatBytes32String("TOMO TEST");
   const accountAPI = getComplexAccount(
     provider,
     config.signingKey,
+    merkleRoot,
     config.entryPoint,
     // config.simpleAccountFactory,
     accountFactoryABI.address,
