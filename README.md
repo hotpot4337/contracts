@@ -31,4 +31,7 @@ yarn ts-node erc-4337-examples/scripts/complexAccount/index.ts address
 # assume it's funded
 yarn ts-node erc-4337-examples/scripts/complexAccount/index.ts transfer --to <ANYADDRESS> --amount 0.0001
 
+# assume WETH deployed at 0x1507a792AFc83Ce8AEB7D84B520F28b147378629
+yarn ts-node erc-4337-examples/scripts/complexAccount/index.ts mintWeth --token 0x1507a792AFc83Ce8AEB7D84B520F28b147378629 --amount 0.001
+
 ```
