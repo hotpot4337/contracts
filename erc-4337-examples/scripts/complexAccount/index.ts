@@ -2,6 +2,7 @@
 import { Command } from "commander";
 import address from "./address";
 import transfer from "./transfer";
+import mintWeth from "./mintWeth";
 import erc20Transfer from "./erc20Transfer";
 import batchTransfer from "./batchTransfer";
 import batchErc20Transfer from "./batchErc20Transfer";
@@ -30,6 +31,16 @@ program
     transfer(opts.to, opts.amount, Boolean(opts.withPaymaster))
   );
 
+program
+  .command("mintWeth")
+  .description("Mint WETH ERC-20 token")
+  .option("-pm, --withPaymaster", "Use a paymaster for this transaction")
+  .requiredOption("-tkn, --token <address>", "The WETH token address")
+  .requiredOption("-amt, --amount <decimal>", "Amount of ETH to deposit")
+  .action(async (opts) =>
+    mintWeth(opts.token, opts.amount, Boolean(opts.withPaymaster))
+  );
+  
 program
   .command("erc20Transfer")
   .description("Transfer ERC-20 token")
