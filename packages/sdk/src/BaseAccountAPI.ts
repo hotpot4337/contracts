@@ -5,14 +5,11 @@ import {
   UserOperationStruct
 } from '@account-abstraction/contracts'
 
-
-
+import { TransactionDetailsForUserOp } from './TransactionDetailsForUserOp'
+import { resolveProperties } from 'ethers/lib/utils'
 import { PaymasterAPI } from './PaymasterAPI'
 import { getUserOpHash, NotPromise, packUserOp } from '@account-abstraction/utils'
 import { calcPreVerificationGas, GasOverheads } from './calcPreVerificationGas'
-// XXX added manually to resolve compile errors
-import { resolveProperties } from '@ethersproject/properties'
-import { TransactionDetailsForUserOp } from './TransactionDetailsForUserOp'
 
 export interface BaseApiParams {
   provider: Provider

@@ -1,8 +1,7 @@
 import { BigNumber, BigNumberish, ContractFactory } from 'ethers'
 import { hexConcat, hexlify, hexZeroPad, keccak256 } from 'ethers/lib/utils'
 import { TransactionRequest } from '@ethersproject/abstract-provider'
-import { JsonRpcProvider, JsonRpcSigner } from '@ethersproject/providers'
-import { Signer } from '@ethersproject/abstract-signer'
+import { JsonRpcProvider } from '@ethersproject/providers'
 
 /**
  * wrapper class for Arachnid's deterministic deployer
@@ -41,9 +40,7 @@ export class DeterministicDeployer {
   static deploymentGasPrice = 100e9
   static deploymentGasLimit = 100000
 
-  constructor (
-    readonly provider: JsonRpcProvider,
-    readonly signer?: Signer) {
+  constructor (readonly provider: JsonRpcProvider) {
   }
 
   async isContractDeployed (address: string): Promise<boolean> {
@@ -60,8 +57,8 @@ export class DeterministicDeployer {
     }
     const bal = await this.provider.getBalance(DeterministicDeployer.deploymentSignerAddress)
     const neededBalance = BigNumber.from(DeterministicDeployer.deploymentGasLimit).mul(DeterministicDeployer.deploymentGasPrice)
+    const signer = this.provider.getSigner()
     if (bal.lt(neededBalance)) {
-      const signer = this.signer ?? this.provider.getSigner()
       await signer.sendTransaction({
         to: DeterministicDeployer.deploymentSignerAddress,
         value: neededBalance,
@@ -115,8 +112,7 @@ export class DeterministicDeployer {
   async deterministicDeploy (ctrCode: string | ContractFactory, salt: BigNumberish = 0, params: any[] = []): Promise<string> {
     const addr = DeterministicDeployer.getDeterministicDeployAddress(ctrCode, salt, params)
     if (!await this.isContractDeployed(addr)) {
-      const signer = this.signer ?? this.provider.getSigner()
-      await signer.sendTransaction(
+      await this.provider.getSigner().sendTransaction(
         await this.getDeployTransaction(ctrCode, salt, params))
     }
     return addr
@@ -124,8 +120,8 @@ export class DeterministicDeployer {
 
   private static _instance?: DeterministicDeployer
 
-  static init (provider: JsonRpcProvider, signer?: JsonRpcSigner): void {
-    this._instance = new DeterministicDeployer(provider, signer)
+  static init (provider: JsonRpcProvider): void {
+    this._instance = new DeterministicDeployer(provider)
   }
 
   static get instance (): DeterministicDeployer {
