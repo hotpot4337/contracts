@@ -52,6 +52,25 @@ const config: HardhatUserConfig = {
     dev: { url: 'http://localhost:8545' },
     // github action starts localgeth service, for gas calculations
     localgeth: { url: 'http://localgeth:8545' },
+    gnosis: {
+      url: "https://rpc.gnosischain.com",
+      accounts: { mnemonic },
+    },
+    chiado: {
+      url: "https://rpc.chiadochain.net",
+      gasPrice: 1000000000,
+      accounts: { mnemonic },
+    },
+    optimism_goerli: {
+      chainId: 420,
+      url: "https://goerli.optimism.io",
+      accounts: { mnemonic: "test test test test test test test test test test test junk" }
+    },
+    mantle_testnet: {
+      chainId: 5001,
+      url: "https://rpc.testnet.mantle.xyz/",
+      accounts: { mnemonic },
+    },
     goerli: getNetwork('goerli'),
     sepolia: getNetwork('sepolia'),
     proxy: getNetwork1('http://localhost:8545')
