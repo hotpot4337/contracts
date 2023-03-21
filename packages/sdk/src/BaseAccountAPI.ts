@@ -126,6 +126,14 @@ export abstract class BaseAccountAPI {
     try {
       await this.entryPointView.callStatic.getSenderAddress(initCode)
     } catch (e: any) {
+      if (e.reason == 'missing revert data in call exception; Transaction reverted without a reason string') {
+        // console.log('caught ', e.error.body)
+        // expect: "Reverted 0x6ca7b806000000000000000000000000a8c7617fba7dbe0fdd520ffc0fa023c3f092913e"
+        console.log("Special exception handling for Gnosis Chain Chiado:", e.error.body);
+        // console.log(JSON.parse(e.error.body));
+        const revertStr = JSON.parse(e.error.body).error.data;
+        return "0x" + revertStr.split('000000000000000000000000')[1];
+      }
       return e.errorArgs.sender
     }
     throw new Error('must handle revert')
