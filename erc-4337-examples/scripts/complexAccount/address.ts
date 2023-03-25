@@ -4,7 +4,9 @@ import { ethers } from "ethers";
 import config from "../../config.json";
 
 // @ts-ignore
-import accountFactoryABI from "../../../deployments/localgeth/ComplexAccountFactory.json";
+import accountFactoryABI from "../../../deployments/scroll_alpha/ComplexAccountFactory.json";
+// XXX
+// import accountFactoryABI from "../../../deployments/localgeth/ComplexAccountFactory.json";
 
 // export interface ComplexAccountApiParams extends BaseApiParams {
 //   owner: Signer

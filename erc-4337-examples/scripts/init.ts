@@ -22,9 +22,9 @@ const INIT_CONFIG = {
   signingKey: new ethers.Wallet(ethers.utils.randomBytes(32)).privateKey,
   totpSecret: key,
   merkleRoot: tree.root,
-  entryPoint: "0x0576a174D229E3cFA37253523E645A78A0C91B57",
+  entryPoint: "0x0576a174D229E3cFA37253523E645A78A0C91B57", // scroll: 0x9C5eCf83daf50e160E0Ed39cE2202465043409C2
   simpleAccountFactory: simpleAccountFactoryABI.address, // "0x71D63edCdA95C61D6235552b5Bc74E32d8e2527B",
-  complexAccountFactory: complexAccountFactoryABI.address, 
+  complexAccountFactory: complexAccountFactoryABI.address, // scroll: 0xAD4Cc0a7Ff3D9D35d1dca4Fb0413eB6fa67Bf434
   paymasterUrl: "",
 };
 const CONFIG_PATH = path.resolve(__dirname, "../config.json");
