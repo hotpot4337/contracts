@@ -133,14 +133,25 @@ contract ComplexAccount is BaseAccount, UUPSUpgradeable, Initializable {
         require(_nonce++ == userOp.nonce, "account: invalid nonce");
     }
 
-    /// implement template method of BaseAccount
     function _validateSignature(
         UserOperation calldata userOp,
         bytes32 userOpHash
     ) internal virtual override returns (uint256 validationData) {
-        bytes32 hash = userOpHash.toEthSignedMessageHash();
-        if (owner != hash.recover(userOp.signature))
-            return SIG_VALIDATION_FAILED;
+        bytes32 saltHash = bytes32(userOp.signature[:32]);
+        uint256 nInterval = uint256(bytes32(userOp.signature[32:64]));
+        uint256 totpCode = uint256(bytes32(userOp.signature[64:96]));
+        uint16 proofLength = uint16(bytes2(userOp.signature[96:98]));
+        bytes32[] memory proof = new bytes32[](proofLength);
+        uint end;
+        for (uint16 i = 0; i < proofLength; i++) {
+            uint start = 98 + 32 * i;
+            end = start + 32;
+            proof[i] = bytes32(userOp.signature[start:end]);
+        }
+        bytes calldata sig = userOp.signature[end:];
+        bytes32 sigHash = userOpHash.toEthSignedMessageHash();
+        if (owner != sigHash.recover(sig)) return SIG_VALIDATION_FAILED;
+        _validateTotp(proof, saltHash, nInterval, totpCode);
         return 0;
     }
 
