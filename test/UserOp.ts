@@ -2,6 +2,8 @@ import {
   arrayify,
   defaultAbiCoder,
   hexDataSlice,
+  zeroPad,
+  hexlify,
   keccak256
 } from 'ethers/lib/utils'
 import { BigNumber, Contract, Signer, Wallet } from 'ethers'
@@ -123,7 +125,7 @@ export const DefaultsForUserOp: UserOperation = {
   signature: '0x'
 }
 
-export function signUserOp (op: UserOperation, signer: Wallet, entryPoint: string, chainId: number): UserOperation {
+export function signUserOp (op: UserOperation, signer: Wallet, entryPoint: string, chainId: number, proof: string[], saltHash: string, nInterval: number, totpCode: number): UserOperation {
   const message = getUserOpHash(op, entryPoint, chainId)
   const msg1 = Buffer.concat([
     Buffer.from('\x19Ethereum Signed Message:\n32', 'ascii'),
@@ -133,10 +135,42 @@ export function signUserOp (op: UserOperation, signer: Wallet, entryPoint: strin
   const sig = ecsign(keccak256_buffer(msg1), Buffer.from(arrayify(signer.privateKey)))
   // that's equivalent of:  await signer.signMessage(message);
   // (but without "async"
+
   const signedMessage1 = toRpcSig(sig.v, sig.r, sig.s)
+  const signedMessage1B = arrayify(signedMessage1)
+
+  console.log('S', saltHash)
+  // B for bytes (Uint8Array)
+  const saltHashB = arrayify(saltHash)
+  const nIntervalB = zeroPad(hexlify([nInterval]), 32)
+  const totpCodeB = zeroPad(arrayify(`0x0${totpCode.toString(16)}`), 32)
+  const proofBArr: Uint8Array[] = []
+  proof.forEach(leaf => {
+    proofBArr.push(arrayify(leaf))
+  })
+  let proofB: Uint8Array = new Uint8Array()
+  proofBArr.forEach(leafB => {
+    proofB = arrayify([...proofB, ...leafB])
+  })
+  console.log('len', proof.length)
+  const proofLenB = zeroPad(arrayify(`0x0${proof.length.toString(16)}`), 2)
+
+  const byteArray: Uint8Array = arrayify([
+    ...saltHashB,
+    ...nIntervalB,
+    ...totpCodeB,
+    ...proofLenB,
+    ...proofB,
+    ...signedMessage1B
+  ])
+  const signatureString = hexlify(byteArray)
+  console.log('---')
+  console.log(signatureString)
+  console.log('---')
+
   return {
     ...op,
-    signature: signedMessage1
+    signature: signatureString
   }
 }
 
