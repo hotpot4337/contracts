@@ -6,11 +6,12 @@ pragma solidity ^0.8.12;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "../core/BasePaymaster.sol";
 import "./IOracle.sol";
 
 /**
- * A token-based paymaster that accepts token deposits
+ * A token-based paymaster that accepts token deposit
  * The deposit is only a safeguard: the user pays with his token balance.
  *  only if the user didn't approve() the paymaster, or if the token balance is not enough, the deposit will be used.
  *  thus the required deposit is to cover just one method call.
@@ -45,7 +46,7 @@ contract DepositPaymaster is BasePaymaster {
      * owner of the paymaster should add supported tokens
      */
     function addToken(IERC20 token, IOracle tokenPriceOracle) external onlyOwner {
-        require(oracles[token] == NULL_ORACLE, "Token already set");
+        require(oracles[token] == NULL_ORACLE);
         oracles[token] = tokenPriceOracle;
     }
 
@@ -69,10 +70,6 @@ contract DepositPaymaster is BasePaymaster {
         }
     }
 
-    /**
-     * @return amount - the amount of given token deposited to the Paymaster.
-     * @return _unlockBlock - the block height at which the deposit can be withdrawn.
-     */
     function depositInfo(IERC20 token, address account) public view returns (uint256 amount, uint256 _unlockBlock) {
         amount = balances[token][account];
         _unlockBlock = unlockBlock[account];
@@ -125,8 +122,8 @@ contract DepositPaymaster is BasePaymaster {
      * Note that the sender's balance is not checked. If it fails to pay from its balance,
      * this deposit will be used to compensate the paymaster for the transaction.
      */
-    function _validatePaymasterUserOp(UserOperation calldata userOp, bytes32 userOpHash, uint256 maxCost)
-    internal view override returns (bytes memory context, uint256 validationData) {
+    function validatePaymasterUserOp(UserOperation calldata userOp, bytes32 userOpHash, uint256 maxCost)
+    external view override returns (bytes memory context, uint256 deadline) {
 
         (userOpHash);
         // verificationGasLimit is dual-purposed, as gas limit for postOp. make sure it is high enough

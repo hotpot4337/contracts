@@ -4,11 +4,11 @@ import { BigNumber, BigNumberish, utils } from 'ethers'
 //   SimpleAccount__factory, SimpleAccountFactory,
 //   SimpleAccountFactory__factory
 // } from '@account-abstraction/contracts'
-import {
-  ComplexAccount,
-  ComplexAccount__factory, ComplexAccountFactory,
-  ComplexAccountFactory__factory
-} from '../../contracts/dist'; // gen with scripts/prepack-contracts-package.sh
+// import {
+//   ComplexAccount,
+//   ComplexAccount__factory, ComplexAccountFactory,
+//   ComplexAccountFactory__factory
+// } from '../../contracts/dist'; // gen with scripts/prepack-contracts-package.sh
 
 import { arrayify, hexConcat } from 'ethers/lib/utils'
 import { Signer } from '@ethersproject/abstract-signer'
