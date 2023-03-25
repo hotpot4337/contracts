@@ -56,6 +56,11 @@ const config: HardhatUserConfig = {
       url: "https://rpc-mumbai.maticvigil.com",
       accounts: { mnemonic },
     },    	
+    scroll_alpha: {
+      url: "https://alpha-rpc.scroll.io/l2",
+      // chainId: 534353,
+      accounts: { mnemonic },
+    },    	
     gnosis: {
       url: "https://rpc.gnosischain.com",
       accounts: { mnemonic },
@@ -65,14 +70,18 @@ const config: HardhatUserConfig = {
       gasPrice: 1000000000,
       accounts: { mnemonic },
     },
+    zksync_testnet: {
+      url: "https://testnet.era.zksync.dev",
+      accounts: { mnemonic },
+    },
     optimism_goerli: {
-      chainId: 420,
+      // chainId: 420,
       url: "https://goerli.optimism.io",
       accounts: { mnemonic: "test test test test test test test test test test test junk" }
     },
     mantle_testnet: {
-      chainId: 5001,
-      url: "https://rpc.testnet.mantle.xyz/",
+      // chainId: 5001,
+      url: "https://rpc.testnet.mantle.xyz",
       accounts: { mnemonic },
     },
     goerli: getNetwork('goerli'),
@@ -81,6 +90,24 @@ const config: HardhatUserConfig = {
   },
   mocha: {
     timeout: 10000
+  },
+
+  // deterministicDeployment: (network: string) => {
+  //   console.log('determine net', network)
+  //   return {
+  //     factory: '0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7',
+  //     deployer: '0xE1CB04A0fA36DdD16a06ea828007E35e1a3cBC37',
+  //     funding: '100e9',
+  //     signedTx: '0xf8a680830f4240830186a08080b853604580600e600039806000f350fe7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe03601600081602082378035828234f58015156039578182fd5b8082525050506014600cf383104ec6a0ace7bece23b6d9db3563ef46bef4934922a9ded4ada6454f9cf6a179278bfcb9a03e3d8932a8405fbef4b0d734ebddd69935bf0d29aec15e07dabdbe2a31091e75',
+  //   }
+  // },
+  deterministicDeployment: {
+    534353: { // scroll_alpha: {
+      factory: '0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7',
+      deployer: '0xE1CB04A0fA36DdD16a06ea828007E35e1a3cBC37',
+      funding: '100000',
+      signedTx: '0xf8a680830f4240830186a08080b853604580600e600039806000f350fe7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe03601600081602082378035828234f58015156039578182fd5b8082525050506014600cf383104ec6a0ace7bece23b6d9db3563ef46bef4934922a9ded4ada6454f9cf6a179278bfcb9a03e3d8932a8405fbef4b0d734ebddd69935bf0d29aec15e07dabdbe2a31091e75',
+    }
   },
 
   etherscan: {
