@@ -2,6 +2,7 @@
 import { Command } from "commander";
 import address from "./address";
 import transfer from "./transfer";
+import swap from "./swap";
 import erc20Transfer from "./erc20Transfer";
 import batchTransfer from "./batchTransfer";
 import batchErc20Transfer from "./batchErc20Transfer";
@@ -28,6 +29,15 @@ program
   .requiredOption("-amt, --amount <eth>", "Amount in ETH to transfer")
   .action(async (opts) =>
     transfer(opts.to, opts.amount, Boolean(opts.withPaymaster))
+  );
+
+program
+  .command("swap")
+  .description("Uniswap ETH")
+  .option("-pm, --withPaymaster", "Use a paymaster for this transaction")
+  .requiredOption("-amt, --amount <eth>", "Amount in ETH to transfer")
+  .action(async (opts) =>
+    swap(opts.amount, Boolean(opts.withPaymaster))
   );
 
 program
