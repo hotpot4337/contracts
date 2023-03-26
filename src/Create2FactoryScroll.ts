@@ -7,21 +7,17 @@ import { TransactionRequest } from '@ethersproject/abstract-provider'
 export class Create2FactoryScroll {
   factoryDeployed = false
 
-  // from: https://github.com/Arachnid/deterministic-deployment-proxy
-  // scroll: https://github.com/safe-global/safe-singleton-factory/issues/88
+  // from: https://github.com/Arachnid/deterministic-deployment-proxy originally:
   // static readonly contractAddress = '0x4e59b44847b379578588920ca78fbf26c0b4956c'
   // static readonly contractAddress = '0xBEDFa841e8A5B0391e90061FccE7c99775d0e1a0'
   // static readonly factoryTx = '0xf8a58085174876e800830186a08080b853604580600e600039806000f350fe7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe03601600081602082378035828234f58015156039578182fd5b8082525050506014600cf31ba02222222222222222222222222222222222222222222222222222222222222222a02222222222222222222222222222222222222222222222222222222222222222'
-  //                 transaction="0xf8a58085174876e800830186a08080b853604580600e600039806000f350fe7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe03601600081602082378035828234f58015156039578182fd5b8082525050506014600cf31ba02222222222222222222222222222222222222222222222222222222222222222a02222222222222222222222222222222222222222222222222222222222222222",
   // static readonly factoryDeployer = '0x3fab184622dc19b6109349b94811493bf2a45362'
-  // https://gist.github.com/pajicf/e954855be50caf9ac9c61f910e96cd03:
-  // static readonly factoryTx = '0xf8a88085174876e800830186a08080b853604580600e600039806000f350fe7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe03601600081602082378035828234f58015156039578182fd5b8082525050506014600cf383104ec5a0c4323f8202427606fa436150b2571ecef7e557617cf471fa84fac8ba679f9f7aa061057928f0be3caed58e7619bf7a59de1c7425e8b45a6c099101049f74e0ca0c'
-  // signerAddress:
-  // static readonly factoryDeployer = '0xd2aEd89b0687a7F80B8415A53D95999A40a340Ba'
-  // https://github.com/safe-global/safe-singleton-factory/blob/main/artifacts/534353/deployment.json
+
+  // scroll:  https://github.com/safe-global/safe-singleton-factory/blob/main/artifacts/534353/deployment.json
   static readonly contractAddress = '0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7'
   static readonly factoryTx = '0xf8a680830f4240830186a08080b853604580600e600039806000f350fe7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe03601600081602082378035828234f58015156039578182fd5b8082525050506014600cf383104ec6a0ace7bece23b6d9db3563ef46bef4934922a9ded4ada6454f9cf6a179278bfcb9a03e3d8932a8405fbef4b0d734ebddd69935bf0d29aec15e07dabdbe2a31091e75'
   static readonly factoryDeployer = '0xE1CB04A0fA36DdD16a06ea828007E35e1a3cBC37'
+  
   static readonly deploymentGasPrice = 100e9
   static readonly deploymentGasLimit = 100000
   static readonly factoryDeploymentFee = (Create2FactoryScroll.deploymentGasPrice * Create2FactoryScroll.deploymentGasLimit).toString()
