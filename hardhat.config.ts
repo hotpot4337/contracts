@@ -68,6 +68,11 @@ const config: HardhatUserConfig = {
       url: 'https://rpc-mumbai.maticvigil.com',
       accounts: { mnemonic }
     },
+    zkEVM: {
+      url: `https://rpc.public.zkevm-test.net`,
+      // chainId: 1442
+      accounts: { mnemonic }
+    },
     scroll_alpha: {
       url: 'https://alpha-rpc.scroll.io/l2',
       // chainId: 534353,
@@ -82,7 +87,7 @@ const config: HardhatUserConfig = {
       gasPrice: 1000000000,
       accounts: { mnemonic }
     },
-    zksync_testnet: {
+    zksync_era_testnet: {
       url: 'https://testnet.era.zksync.dev',
       accounts: { mnemonic }
     },
@@ -123,8 +128,15 @@ const config: HardhatUserConfig = {
       funding: '100000',
       signedTx:
         '0xf8a680830f4240830186a08080b853604580600e600039806000f350fe7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe03601600081602082378035828234f58015156039578182fd5b8082525050506014600cf383104ec6a0ace7bece23b6d9db3563ef46bef4934922a9ded4ada6454f9cf6a179278bfcb9a03e3d8932a8405fbef4b0d734ebddd69935bf0d29aec15e07dabdbe2a31091e75'
-    }
-  },
+    },
+    5001: {
+      // mantle_testnet: {
+      factory: '0x6b97f5d88bf547C3aA3EC1D4F548ABCFf0AEeF8a',
+      deployer: '0x9230891a2f0d2c78Fb14F33d28AB6C1E3754AE1D',
+      funding: '100000',
+      signedTx:
+        '0xf8a20e01830186a08080b853604580600e600039806000f350fe7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe03601600081602082378035828234f58015156039578182fd5b8082525050506014600cf3822736a0bd51ba86d0aa2e2ec6d09939332a199bff83864d01b390cb47faff2f96b770b0a05bbdac2728f411a351af78e131e0dbae0170a8ddf7a56179d31245405de15062'
+    }  },
 
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY
