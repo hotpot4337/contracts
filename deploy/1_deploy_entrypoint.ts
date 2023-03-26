@@ -7,9 +7,11 @@ import { ethers } from 'hardhat'
 const deployEntryPoint: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const provider = ethers.provider
   const from = await provider.getSigner().getAddress()
-  // await new Create2Factory(ethers.provider).deployFactory()
-  await new Create2FactoryScroll(ethers.provider).deployFactory()
-
+  if (hre.network.name === 'scroll_alpha') {
+    await new Create2FactoryScroll(ethers.provider).deployFactory()
+  } else {
+    await new Create2Factory(ethers.provider).deployFactory()
+  }
   const ret = await hre.deployments.deploy(
     'EntryPoint', {
       from,
