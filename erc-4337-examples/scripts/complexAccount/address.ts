@@ -4,9 +4,9 @@ import { ethers } from "ethers";
 import config from "../../config.json";
 
 // @ts-ignore
-import accountFactoryABI from "../../../deployments/scroll_alpha/ComplexAccountFactory.json";
-// XXX
-// import accountFactoryABI from "../../../deployments/localgeth/ComplexAccountFactory.json";
+import accountFactoryABIscroll from "../../../deployments/scroll_alpha/ComplexAccountFactory.json";
+import accountFactoryABI from "../../../deployments/localgeth/ComplexAccountFactory.json";
+const factoryAddress = config.rpcUrl == 'https://alpha-rpc.scroll.io/l2' ? accountFactoryABIscroll.address : accountFactoryABI.address;
 
 // export interface ComplexAccountApiParams extends BaseApiParams {
 //   owner: Signer
@@ -31,7 +31,8 @@ export default async function main() {
     merkleRoot,
     config.entryPoint,
     // config.simpleAccountFactory
-    accountFactoryABI.address
+    // accountFactoryABI.address
+    factoryAddress
   );
   const address = await accountAPI.getCounterFactualAddress();
 
