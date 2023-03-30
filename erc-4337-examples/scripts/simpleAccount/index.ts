@@ -4,6 +4,7 @@ import address from "./address";
 import transfer from "./transfer";
 import swap from "./swap";
 import createFlow from "./createFlow";
+import wCreateFlow from "./wCreateFlow";
 import deleteFlow from "./deleteFlow";
 import erc20Balance from "./erc20Balance";
 import erc20Transfer from "./erc20Transfer";
@@ -45,13 +46,24 @@ program
 
 program
   .command("createFlow")
-  .description("Transfer ERC-20 token")
+  .description("Create Superfluid flow")
   .option("-pm, --withPaymaster", "Use a paymaster for this transaction")
   .requiredOption("-tkn, --token <address>", "The token address")
   .requiredOption("-t, --to <address>", "The recipient address")
-  .requiredOption("-amt, --amount <decimal>", "Amount of the token to transfer")
+  .requiredOption("-amt, --amount <decimal>", "Amount of the token to transfer per second")
   .action(async (opts) =>
     createFlow(opts.token, opts.to, opts.amount, Boolean(opts.withPaymaster))
+  );
+
+program
+  .command("wCreateFlow")
+  .description("Wrap (upgrade to Super) token and Create Superfluid flow")
+  .option("-pm, --withPaymaster", "Use a paymaster for this transaction")
+  .requiredOption("-tkn, --token <address>", "The Super token address")
+  .requiredOption("-t, --to <address>", "The recipient address")
+  .requiredOption("-amt, --amount <decimal>", "Amount of the token to transfer per second")
+  .action(async (opts) =>
+    wCreateFlow(opts.token, opts.to, opts.amount, Boolean(opts.withPaymaster))
   );
 
 program
