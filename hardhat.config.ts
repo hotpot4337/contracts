@@ -68,6 +68,10 @@ const config: HardhatUserConfig = {
       url: 'https://rpc-mumbai.maticvigil.com',
       accounts: { mnemonic }
     },
+    base_testnet: {
+      url: 'https://goerli.base.org',
+      accounts: { mnemonic }
+    },    
     zkEVM: {
       url: `https://rpc.public.zkevm-test.net`,
       // chainId: 1442
