@@ -3,6 +3,7 @@ import { Command } from "commander";
 import address from "./address";
 import transfer from "./transfer";
 import swap from "./swap";
+import createFlow from "./createFlow";
 import erc20Balance from "./erc20Balance";
 import erc20Transfer from "./erc20Transfer";
 import batchTransfer from "./batchTransfer";
@@ -39,6 +40,17 @@ program
   .requiredOption("-amt, --amount <eth>", "Amount in ETH to transfer")
   .action(async (opts) =>
     swap(opts.amount, Boolean(opts.withPaymaster))
+  );
+
+program
+  .command("createFlow")
+  .description("Transfer ERC-20 token")
+  .option("-pm, --withPaymaster", "Use a paymaster for this transaction")
+  .requiredOption("-tkn, --token <address>", "The token address")
+  .requiredOption("-t, --to <address>", "The recipient address")
+  .requiredOption("-amt, --amount <decimal>", "Amount of the token to transfer")
+  .action(async (opts) =>
+    createFlow(opts.token, opts.to, opts.amount, Boolean(opts.withPaymaster))
   );
 
 program
