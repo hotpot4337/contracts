@@ -10,13 +10,10 @@ import {
 // @ts-ignore
 import config from "../../config.json";
 
-// import { ConstantFlowAgreementV1 } from "@superfluid-finance/sdk-core";
-// import * as sup from "@superfluid-finance/sdk-core";
-
 export default async function main(
   tkn: string,
   t: string,
-  amt: string,
+  // amt: string,
   withPM: boolean
 ) {
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl);
@@ -39,17 +36,17 @@ export default async function main(
     erc20.symbol(),
     erc20.decimals(),
   ]);
-  const amount = ethers.utils.parseUnits(amt, decimals);
-  console.log(`Transferring ${amt} ${symbol}...`);
+  // const amount = ethers.utils.parseUnits(amt, decimals);
+  // console.log(`Transferring ${amt} ${symbol}...`);
 
   const me = await accountAPI.getAccountAddress();
 
   const cfaV1Address = '0xcfa132e353cb4e398080b9700609bb008eceb125'; // mumbai
-  // XXX const cfaV1 = new ethers.Contract(cfaV1Address, sup.ConstantFlowAgreementV1__factory.abi, provider);
   const CFA_ABI = [
     // 'function createFlow(ISuperToken token, address sender, address receiver, int96 flowrate, bytes memory userData) external returns (bool)',
     // etherscan: createFlow(address token,address sender,address receiver,int96 flowrate,bytes userData)
     'function createFlow(address token, address sender, address receiver, int96 flowrate, bytes memory userData) external returns (bool)',
+    'function deleteFlow(address token, address sender, address receiver, bytes memory userData) external returns (bool)',
     // 'function getFlow(address token, address sender, address receiver) external view override returns (uint256 timestamp, int96 flowRate, uint256 deposit, uint256 owedDeposit)'
     // etherscan only getFlowInfo not getFlow - returns lastUpdated now timestamp
     'function getFlowInfo(address token, address sender, address receiver) external view override returns (uint256 lastUpdated, int96 flowRate, uint256 deposit, uint256 owedDeposit)',
@@ -72,7 +69,7 @@ export default async function main(
 
   const op = await accountAPI.createSignedUserOp({
     target: cfaV1Address,
-    data: cfaV1.interface.encodeFunctionData("createFlow", [token, me, to, amount, emptyUserData]),
+    data: cfaV1.interface.encodeFunctionData("deleteFlow", [token, me, to, emptyUserData]),
     ...(await getGasFee(provider)),
   });
   console.log(`Signed UserOperation: ${await printOp(op)}`);

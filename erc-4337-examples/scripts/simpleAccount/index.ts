@@ -4,6 +4,7 @@ import address from "./address";
 import transfer from "./transfer";
 import swap from "./swap";
 import createFlow from "./createFlow";
+import deleteFlow from "./deleteFlow";
 import erc20Balance from "./erc20Balance";
 import erc20Transfer from "./erc20Transfer";
 import batchTransfer from "./batchTransfer";
@@ -51,6 +52,16 @@ program
   .requiredOption("-amt, --amount <decimal>", "Amount of the token to transfer")
   .action(async (opts) =>
     createFlow(opts.token, opts.to, opts.amount, Boolean(opts.withPaymaster))
+  );
+
+program
+  .command("deleteFlow")
+  .description("Transfer ERC-20 token")
+  .option("-pm, --withPaymaster", "Use a paymaster for this transaction")
+  .requiredOption("-tkn, --token <address>", "The token address")
+  .requiredOption("-t, --to <address>", "The recipient address")
+  .action(async (opts) =>
+    deleteFlow(opts.token, opts.to, Boolean(opts.withPaymaster))
   );
 
 program
