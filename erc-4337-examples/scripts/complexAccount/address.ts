@@ -6,7 +6,8 @@ import config from "../../config.json";
 // @ts-ignore
 import accountFactoryABIscroll from "../../../deployments/scroll_alpha/ComplexAccountFactory.json";
 import accountFactoryABI from "../../../deployments/localgeth/ComplexAccountFactory.json";
-const factoryAddress = config.rpcUrl == 'https://alpha-rpc.scroll.io/l2' ? accountFactoryABIscroll.address : accountFactoryABI.address;
+const factoryAddress = config.complexAccountFactory ? config.complexAccountFactory :
+ (config.rpcUrl == 'https://alpha-rpc.scroll.io/l2' ? accountFactoryABIscroll.address : accountFactoryABI.address);
 
 // export interface ComplexAccountApiParams extends BaseApiParams {
 //   owner: Signer
