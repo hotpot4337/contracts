@@ -93,7 +93,7 @@ export default async function main(
     ...(await getGasFee(provider)),
   });
   console.log(`Signed UserOperation: ${await printOp(op1)}`);
-  _doOp(accountAPI, op1);
+  await _doOp(accountAPI, op1);
 
 
   console.log('wait 5s...');
@@ -111,7 +111,7 @@ export default async function main(
     ...(await getGasFee(provider)),
   });
   console.log(`Signed UserOperation: ${await printOp(op2)}`);
-  _doOp(accountAPI, op2);
+  await _doOp(accountAPI, op2);
   
 
   console.log('wait 5s...');
