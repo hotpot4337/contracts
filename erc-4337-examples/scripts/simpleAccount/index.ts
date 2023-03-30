@@ -3,6 +3,7 @@ import { Command } from "commander";
 import address from "./address";
 import transfer from "./transfer";
 import swap from "./swap";
+import erc20Balance from "./erc20Balance";
 import erc20Transfer from "./erc20Transfer";
 import batchTransfer from "./batchTransfer";
 import batchErc20Transfer from "./batchErc20Transfer";
@@ -38,6 +39,14 @@ program
   .requiredOption("-amt, --amount <eth>", "Amount in ETH to transfer")
   .action(async (opts) =>
     swap(opts.amount, Boolean(opts.withPaymaster))
+  );
+
+program
+  .command("erc20Balance")
+  .description("Balance of ERC-20 token")
+  .requiredOption("-tkn, --token <address>", "The token address")
+  .action(async (opts) =>
+    erc20Balance(opts.token)
   );
 
 program
