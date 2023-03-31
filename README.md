@@ -1,3 +1,18 @@
+# Description
+
+A smart contract wallet protected with 2FA (Google Authenticator) and optional social login. The wallet has protections in place to keep the user on allowed defi protocols and can only return funds to the owner in case an attacker gets access to the signing keys. The wallet makes it easy to create Superfluid money streams so that a company's accountant could use it to pay salaries without being able to steal or lose the company's funds.
+
+Using Web3Auth for social logins, Google Authenticator for 2FA, Superfluid for money streaming, ERC-4337 account abstraction, Stackup bundler, deployed on Polygon and Base.
+
+# Internal
+
+We want to configure a smart contract wallet that requires knowledge of time-based one time pass (OTP) codes generated from an app like Google Authenticator but we don't want to keep the secret on the device. In order to verify that a code is correct without knowledge of the secret used to generate it, we will generate a list of future OTP codes and put them in a Merkle tree. We can then commit the root of the tree to the smart contract wallet, which can then verify witnesses that a future generated code is the correct code at a given time. The Merkle tree is structured like the image below.
+ 
+![](FlowSafeTOTPmerkleTree.png)
+
+
+# Setup Project
+
 Do this:
 
 ```
