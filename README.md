@@ -10,6 +10,9 @@ We want to configure a smart contract wallet that requires knowledge of time-bas
  
 ![](FlowSafeTOTPmerkleTree.png)
 
+[Contract](https://github.com/hotpot4337/contracts/blob/develop/contracts/samples/ComplexAccount.sol) 
+
+
 
 # Setup Project
 
@@ -49,4 +52,12 @@ yarn ts-node erc-4337-examples/scripts/complexAccount/index.ts transfer --to <AN
 # assume WETH deployed at 0x1507a792AFc83Ce8AEB7D84B520F28b147378629
 yarn ts-node erc-4337-examples/scripts/complexAccount/index.ts mintWeth --token 0x1507a792AFc83Ce8AEB7D84B520F28b147378629 --amount 0.001
 
+# Creating superfluid token flow
+yarn ts-node erc-4337-examples/scripts/simpleAccount/index.ts createFlow -tkn <ADDRESS> -t <ADDRESS> --amount 0.001
+
+# Deleting flow
+yarn ts-node erc-4337-examples/scripts/simpleAccount/index.ts deleteFlow -tkn <ADDRESS> -t <ADDRESS>
+
+# Test totp merkle proof userop verification
+yarn hardhat test test/complex.test.ts
 ```
